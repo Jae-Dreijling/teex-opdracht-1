@@ -15,11 +15,20 @@ Om deze vragen te kunnen beantwoorden kan je natuurlijk bellen: 0800-PIZZANU voo
 
 Pizza.nu heeft een bestaande applicatie waarmee een klant een pizza kan bestellen. Vervolgens gaat de pizzabakker er mee aan de gang en uiteindelijk komt er hopelijk een bezorger op tijd met een warme pizza bij de hongerige klant. Uit marktonderzoek blijkt nu dat klanten graag meer betrokken willen worden bij het pizza proces! Van bakken tot leveren, alles willen ze weten. 
 
-De software architect heeft vooronderzoek gedaan, en met gebruik van WebSockets moet het mogelijk zijn om deze real-time bidirectionele communicatie mogelijk te maken. De functionele eisen waar mee gewerkt kan worden zijn, in volgorde van prioriteit, de volgende:
+De functionele eisen waar mee gewerkt kan worden zijn, in volgorde van prioriteit, de volgende:
 
 1. Een klant die een pizza heeft besteld moet direct (binnen 1 seconde) een update krijgen als een pizza gebakken is.
 1. Een klant kan na een bestelling direct vragen stellen aan de pizzabakker, en een antwoord van de bakker moet direct getoond worden aan de klant.
 1. Een klant krijgt direct een bericht als de pizza aan de bezorger is meegegeven.
 1. Nadat de pizza aan de bezorger is meegegeven krijgt de klant direct updates van de hartslag van de bezorger zodra deze meetdata beschikbaar is van de gepantenteerde en geimplanteerde pizza.nu lifestyle chip.
 
-Met 'direct' wordt niet perse instantaan bedoeld (het is niet nodig kwantumverstrengeling toe te passen). Lees hier 'binnen een enkele seconde'.
+Met 'direct' wordt niet perse instantaan bedoeld (het is niet gewenst om kwantumverstrengeling toe te passen). Lees hier 'binnen een enkele seconde'.
+
+## Aanpak
+
+De software architect heeft vooronderzoek gedaan, en de technologie *WebSockets* zou het mogelijk moeten maken om deze real-time bidirectionele communicatie mogelijk te maken. Er zijn naast de functionelen eisen ook nog onzekerheden:
+
+1. Werkt dit ook op de technologie 'stack' van pizza.nu? (Spring en React)
+1. Hoe veel tijd (lees: geld) gaat het team nodig hebben om deze nieuwe tech te leren?
+
+Deze onzekerheden maken het onpraktisch om schattingen te kunnen maken over hoe veel tijd het team nodig gaat hebben om de nieuwe features te implementeren. Oftewel: Het werk kan nog niet gepland worden. Samen met het team is een nieuw soort taak op het scrum bord van het team geplaatst: Een [SPIKE](https://www.google.com/search?q=what+is+a+spike+in+scrum). Het doel van een spike is om deze onzekerheden te tacklen zonder de features volledig te moeten implementeren. De spike wordt ingepland met een [timebox](https://www.google.com/search?q=what+is+a+timebox+in+agile) van een week. 
