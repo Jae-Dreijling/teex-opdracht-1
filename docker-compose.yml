@@ -34,7 +34,6 @@ services:
         "spring.datasource.username" : "$MYSQLDB_USER",
         "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
         "spring.sql.init.mode" : "always",
-        "spring.datasource.initialization-mode" : "always"
-      }'
+        "spring.datasource.initialization-mode" : "always" }'
     stdin_open: true
     tty: true
