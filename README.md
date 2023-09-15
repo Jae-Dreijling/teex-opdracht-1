@@ -1,5 +1,10 @@
 # Week 1 - Casus - Pizza.nu
 
+
+## Backend
+
+Backend API Docs UI: http://localhost:8080/swagger-ui/index.html
+
 ## Inleiding
 
 Ken je dat, je hebt een pizza besteld en zit met smart te wachten bij de voordeur met zo veel vragen !?
