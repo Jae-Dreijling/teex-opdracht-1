@@ -33,3 +33,4 @@ HELP.md
 **/yarn-error.log*
 /frontend/package-lock.json
 /.structurizr/**
+.vscode/settings.json
