@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  mysqldb:
+  db:
     image: mariadb:10.5.22
     restart: unless-stopped
     env_file: .env
@@ -11,29 +11,48 @@ services:
       - MYSQL_TCP_PORT=$MYSQLDB_LOCAL_PORT
     ports:
       - $MYSQLDB_LOCAL_PORT:$MYSQLDB_DOCKER_PORT
-    healthcheck: #avoids premature connection attempts by app
+    healthcheck:
       test: "healthcheck.sh --connect"
-      interval: 3s
+      interval: 2s
       timeout: 5s
-      retries: 10
+      retries: 20
       start_period: 3s
     volumes:
-      - type: tmpfs
+      - type: tmpfs # Use a temporary voluma as data for development. Change this if you actually want persistant data.
         target: /var/lib/mysql
-  app:
+  backend:
     depends_on:
-      - mysqldb
+      db: # delays app startup untill mysql is healthy
+        condition: service_healthy
     build: ./backend
     restart: on-failure
-    env_file: .env
+    env_file: 
+      - ./backend/src/main/resources/.env
+      - .env
     ports:
-      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT
-    environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:mysql://mysqldb:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
+      - $SPRING_LOCAL_PORT:$SPRING_DOCKER_PORT # Expose the backend port for troubleshooting and experimenting. Not required.
+    environment: # Inject spring configuration.
+      SPRING_APPLICATION_JSON: '{ 
+        "spring.datasource.url"  : "jdbc:mysql://db:$MYSQLDB_DOCKER_PORT/$MYSQLDB_DATABASE?useSSL=false",
         "spring.datasource.username" : "$MYSQLDB_USER",
         "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
         "spring.sql.init.mode" : "always",
         "spring.datasource.initialization-mode" : "always" }'
-    stdin_open: true
-    tty: true
+    healthcheck:
+      test: "CMD curl --fail http://localhost:8080 || exit 1"
+      interval: 2s
+      timeout: 5s
+      retries: 20
+      start_period: 3s
+    volumes: 
+      - mavencache:/root/.m2 # Use a named volume as maven cache to avoid repeated maven downloads
+  frontend:
+    build: ./frontend
+    # best practice for node on docker (see https://github.com/nodejs/docker-node/blob/main/docs/BestPractices.md)
+    init: true 
+    restart: on-failure
+    ports:
+      - 3000:3000
+      
+volumes:
+  mavencache:
