@@ -13,7 +13,5 @@ public interface PizzaNuRepository<T,ID> {
 
     List<T> findAll();
 
-    List<T> findByNameContaining(String productname);
-
     int deleteAll();
 }
