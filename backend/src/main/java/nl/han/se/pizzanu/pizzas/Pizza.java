@@ -2,21 +2,25 @@ package nl.han.se.pizzanu.pizzas;
 
 public class Pizza {
     private long id;
-    private String name;
+    private String productName;
     private String description;
+    private int price;
+    private int orderCount = 0;
 
-    public Pizza(long id, String name, String description) {
+    public Pizza(long id, String productName, String description, int price) {
         this.id = id;
-        this.name = name;
+        this.productName = productName;
         this.description = description;
+        this.price = price;
     }
 
     public Pizza() {
     }
 
-    public Pizza(String name, String description) {
-        this.name = name;
+    public Pizza(String productName, String description, int price, int orderCount) {
+        this.productName = productName;
         this.description = description;
+        this.price = price;
     }
 
     public long getId() {
@@ -27,12 +31,12 @@ public class Pizza {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
     public String getDescription() {
         return description;
@@ -40,6 +44,22 @@ public class Pizza {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getOrderCount() {
+        return orderCount;
+    }
+
+    public void setOrderCount(int orderCount) {
+        this.orderCount = orderCount;
     }
 }
 

@@ -1,6 +1,5 @@
 package nl.han.se.pizzanu.pizzas;
 
-import nl.han.se.pizzanu.pizzas.Pizza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,14 +14,14 @@ public class JdbcPizzaRepository implements PizzaRepository {
 
     @Override
     public int save(Pizza pizza) {
-        return jdbcTemplate.update("INSERT INTO pizzas (name, description) VALUES(?,?)",
-                new Object[] { pizza.getName(), pizza.getDescription() });
+        return jdbcTemplate.update("INSERT INTO pizzas (productname, description, price, ordercount) VALUES(?,?,?,?)",
+                new Object[] { pizza.getProductName(), pizza.getDescription(), pizza.getPrice(), pizza.getOrderCount() });
     }
 
     @Override
     public int update(Pizza pizza) {
-        return jdbcTemplate.update("UPDATE pizzas SET name=?, description=?",
-                new Object[] { pizza.getName(), pizza.getDescription(), pizza.getId() });
+        return jdbcTemplate.update("UPDATE pizzas SET productname=?, description=?, price=?, ordercount=?",
+                new Object[] { pizza.getProductName(), pizza.getDescription(), pizza.getPrice(), pizza.getOrderCount(), pizza.getId() });
     }
 
     @Override
@@ -42,8 +41,8 @@ public class JdbcPizzaRepository implements PizzaRepository {
     }
 
     @Override
-    public List<Pizza> findByNameContaining(String name) {
-        return jdbcTemplate.query("SELECT * from pizzas WHERE name LIKE '%" + name + "%'", BeanPropertyRowMapper.newInstance(Pizza.class));
+    public List<Pizza> findByNameContaining(String productname) {
+        return jdbcTemplate.query("SELECT * from pizzas WHERE productname LIKE '%" + productname + "%'", BeanPropertyRowMapper.newInstance(Pizza.class));
     }
 
     @Override

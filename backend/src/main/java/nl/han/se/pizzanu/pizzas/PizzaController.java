@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin(origins ={"http://localhost:3000", "http://localhost:5173"})
 @RestController
 @RequestMapping("/api")
 public class PizzaController {
@@ -45,7 +44,7 @@ public class PizzaController {
 
     @PostMapping("/pizzas")
     public ResponseEntity<String> createPizza(@RequestBody Pizza pizza) {
-        pizzaRepository.save(new Pizza(pizza.getName(), pizza.getDescription()));
+        pizzaRepository.save(new Pizza(pizza.getProductName(), pizza.getDescription(), pizza.getPrice(), pizza.getOrderCount()));
         return new ResponseEntity<>("ExamQuestion was created successfully.", HttpStatus.CREATED);
     }
 
@@ -55,13 +54,15 @@ public class PizzaController {
 
         if (_Pizza != null) {
             _Pizza.setId(id);
-            _Pizza.setName(pizza.getName());
+            _Pizza.setProductName(pizza.getProductName());
             _Pizza.setDescription(pizza.getDescription());
+            _Pizza.setPrice(pizza.getPrice());
+            _Pizza.setOrderCount(pizza.getOrderCount());
 
             pizzaRepository.update(_Pizza);
             return new ResponseEntity<>("Pizza was updated successfully.", HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Cannot find PIzza with id=" + id, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Cannot find Pizza with id=" + id, HttpStatus.NOT_FOUND);
         }
     }
 

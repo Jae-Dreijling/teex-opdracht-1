@@ -13,7 +13,7 @@ public interface PizzaNuRepository<T,ID> {
 
     List<T> findAll();
 
-    List<T> findByNameContaining(String name);
+    List<T> findByNameContaining(String productname);
 
     int deleteAll();
 }
