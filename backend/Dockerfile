@@ -1,5 +1,5 @@
 FROM maven:3-amazoncorretto-17
-WORKDIR /ansie
+WORKDIR /pizzanu
+EXPOSE 8080
 COPY . .
-RUN mvn clean install
-CMD mvn spring-boot:run
+CMD mvn spring-boot:run -B
