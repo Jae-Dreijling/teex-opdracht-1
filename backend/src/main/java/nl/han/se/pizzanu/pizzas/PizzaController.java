@@ -45,7 +45,7 @@ public class PizzaController {
     @PostMapping("/pizzas")
     public ResponseEntity<String> createPizza(@RequestBody Pizza pizza) {
         pizzaRepository.save(new Pizza(pizza.getProductName(), pizza.getDescription(), pizza.getPrice(), pizza.getOrderCount()));
-        return new ResponseEntity<>("ExamQuestion was created successfully.", HttpStatus.CREATED);
+        return new ResponseEntity<>("Pizza was created successfully.", HttpStatus.CREATED);
     }
 
     @PutMapping("/pizzas/{id}")

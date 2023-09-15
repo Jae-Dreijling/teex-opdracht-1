@@ -1,4 +1,4 @@
-package nl.han.se.pizzanu.pizzas;
+package nl.han.se.pizzanu;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
