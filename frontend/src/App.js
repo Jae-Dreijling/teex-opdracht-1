@@ -16,6 +16,7 @@ function App() {
   // });
   const [products, setProducts] = useState([
     {
+      id: 0,
       productName: "Pizzas are coming",
       description: "With added awesomeness",
       orderCount: 0,
@@ -33,14 +34,14 @@ function App() {
     fetchPizzas();
   }, []);
 
-  const onProductIncPlusClick = function (clickedProductName) {
-    var i = products.findIndex((p) => p.productName === clickedProductName);
+  const onProductIncPlusClick = function (clickedProductId) {
+    var i = products.findIndex((p) => p.id === clickedProductId);
     products[i].orderCount = products[i].orderCount + 1;
     setProducts([...products]);
   };
 
-  const onProductIncMinusClick = function (clickedProductName) {
-    var i = products.findIndex((p) => p.productName === clickedProductName);
+  const onProductIncMinusClick = function (clickedProductId) {
+    var i = products.findIndex((p) => p.id === clickedProductId);
     products[i].orderCount > 0
       ? (products[i].orderCount = products[i].orderCount - 1)
       : (products[i].orderCount = 0);
