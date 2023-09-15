@@ -6,3 +6,8 @@ INSERT INTO `pizzanu`.`pizzas`  (`productname`,         `description`,          
 VALUES                          ('Hawaii',              'Kaas, Tomaat, Ham, Ananas',    10,      0);
 INSERT INTO `pizzanu`.`pizzas`  (`productname`,         `description`,                  `price`, `ordercount`)
 VALUES                          ('Quattro Staggione', 'All the things',                 10,      0);
+
+
+INSERT INTO `pizzanu`.`orderedpizzas` (`pizzaid`) VALUES  (1);
+INSERT INTO `pizzanu`.`orderedpizzas` (`pizzaid`) VALUES  (1);
+INSERT INTO `pizzanu`.`orderedpizzas` (`pizzaid`) VALUES  (3);
