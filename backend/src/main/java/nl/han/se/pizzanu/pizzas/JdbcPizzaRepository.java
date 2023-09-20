@@ -14,14 +14,14 @@ public class JdbcPizzaRepository implements PizzaRepository {
 
     @Override
     public int save(Pizza pizza) {
-        return jdbcTemplate.update("INSERT INTO pizzas (productname, description, price, ordercount) VALUES(?,?,?,?)",
-                new Object[] { pizza.getProductName(), pizza.getDescription(), pizza.getPrice(), pizza.getOrderCount() });
+        return jdbcTemplate.update("INSERT INTO pizzas (productname, description, price) VALUES(?,?,?)",
+                new Object[]{pizza.getProductName(), pizza.getDescription(), pizza.getPrice()});
     }
 
     @Override
     public int update(Pizza pizza) {
-        return jdbcTemplate.update("UPDATE pizzas SET productname=?, description=?, price=?, ordercount=?",
-                new Object[] { pizza.getProductName(), pizza.getDescription(), pizza.getPrice(), pizza.getOrderCount(), pizza.getId() });
+        return jdbcTemplate.update("UPDATE pizzas SET productname=?, description=?, price=?",
+                new Object[]{pizza.getProductName(), pizza.getDescription(), pizza.getPrice(), pizza.getId()});
     }
 
     @Override

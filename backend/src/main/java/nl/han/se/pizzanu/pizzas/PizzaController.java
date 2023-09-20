@@ -44,7 +44,7 @@ public class PizzaController {
 
     @PostMapping("/pizzas")
     public ResponseEntity<String> createPizza(@RequestBody Pizza pizza) {
-        pizzaRepository.save(new Pizza(pizza.getProductName(), pizza.getDescription(), pizza.getPrice(), pizza.getOrderCount()));
+        pizzaRepository.save(new Pizza(pizza.getProductName(), pizza.getDescription(), pizza.getPrice()));
         return new ResponseEntity<>("Pizza was created successfully.", HttpStatus.CREATED);
     }
 
@@ -57,7 +57,6 @@ public class PizzaController {
             _Pizza.setProductName(pizza.getProductName());
             _Pizza.setDescription(pizza.getDescription());
             _Pizza.setPrice(pizza.getPrice());
-            _Pizza.setOrderCount(pizza.getOrderCount());
 
             pizzaRepository.update(_Pizza);
             return new ResponseEntity<>("Pizza was updated successfully.", HttpStatus.OK);

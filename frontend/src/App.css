@@ -120,8 +120,13 @@
 }
 
 .button button {
-    height:200px;
-    width:200px;
+  padding: 5px;
+  font-size: 16px;
+  background-color: #ccc;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  outline: none;
 }
 
 @keyframes App-logo-spin {

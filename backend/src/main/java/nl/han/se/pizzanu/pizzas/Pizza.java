@@ -5,7 +5,6 @@ public class Pizza {
     private String productName;
     private String description;
     private int price;
-    private int orderCount = 0;
 
     public Pizza(long id, String productName, String description, int price) {
         this.id = id;
@@ -17,7 +16,7 @@ public class Pizza {
     public Pizza() {
     }
 
-    public Pizza(String productName, String description, int price, int orderCount) {
+    public Pizza(String productName, String description, int price) {
         this.productName = productName;
         this.description = description;
         this.price = price;
@@ -54,12 +53,5 @@ public class Pizza {
         this.price = price;
     }
 
-    public int getOrderCount() {
-        return orderCount;
-    }
-
-    public void setOrderCount(int orderCount) {
-        this.orderCount = orderCount;
-    }
 }
 

@@ -7,12 +7,11 @@ export default function ProductList(p) {
       <Product
         productName={product.productName}
         description={product.description}
+        price={product.price}
       />
       <ProductIncrementer
         id={product.id}
         plusClick={p.onProductIncPlusClick}
-        minusClick={p.onProductIncMinusClick}
-        orderCount={product.orderCount}
       />
     </div>
   ));

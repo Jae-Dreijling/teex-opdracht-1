@@ -1,7 +1,6 @@
 import "./App.css";
 import ProductList from "./ProductList";
 import Cart from "./Cart";
-import OrderButton from "./OrderButton";
 import { useEffect, useState } from "react";
 // import useWebSocket from 'react-use-websocket';
 import { StompSessionProvider, useSubscription } from "react-stomp-hooks";
@@ -19,20 +18,45 @@ function App() {
       id: 0,
       productName: "Pizzas are coming",
       description: "With added awesomeness",
-      orderCount: 0,
       price: 10,
     },
   ]);
-  const fetchPizzas = () => {
+
+  const [orderedPizzas, setOrderedPizzas] = useState([
+    {
+      id: 0,
+      pizzaId: 0,
+      productName: "Pizzas are coming",
+      description: "With added awesomeness",
+      price: 10,
+    },
+  ]);
+
+  useEffect(() => {
     fetch("http://localhost:8080/api/pizzas")
       .then((response) => response.json())
       .then((responseJSON) => {
         setProducts(responseJSON);
       });
-  };
-  useEffect(() => {
-    fetchPizzas();
   }, []);
+
+  useEffect(() => {
+    fetch("http://localhost:8080/api/orderedpizzas")
+      .then((opresponse) => opresponse.json())
+      .then((opresponseJSON) => {
+        var newOrderedPizzas = opresponseJSON.map((orderedPizza) => {
+          var pizza = products.find((p) => p.id === orderedPizza.pizzaId) || {};
+          return {
+            ...orderedPizza,
+            productName: pizza.productName,
+            description: pizza.description,
+            price: pizza.price,
+          };
+        });
+        console.log(newOrderedPizzas);
+        setOrderedPizzas(newOrderedPizzas);
+      });
+  }, [products]);
 
   const onProductIncPlusClick = function (clickedProductId) {
     var i = products.findIndex((p) => p.id === clickedProductId);
@@ -40,20 +64,12 @@ function App() {
     setProducts([...products]);
   };
 
-  const onProductIncMinusClick = function (clickedProductId) {
-    var i = products.findIndex((p) => p.id === clickedProductId);
-    products[i].orderCount > 0
-      ? (products[i].orderCount = products[i].orderCount - 1)
-      : (products[i].orderCount = 0);
-    setProducts([...products]);
-  };
-
-  const orderButtonClick = fetchPizzas;
   const wserror = function (error) {
     console.log(error);
     debugger;
   };
   const connectws = function () {};
+
   return (
     <>
       <StompSessionProvider
@@ -67,11 +83,9 @@ function App() {
         <h1>Pizza di Papavione</h1>
         <ProductList
           onProductIncPlusClick={onProductIncPlusClick}
-          onProductIncMinusClick={onProductIncMinusClick}
           products={products}
         />
-        <Cart products={products}></Cart>
-        <OrderButton buttonClick={orderButtonClick}></OrderButton>
+        <Cart products={products} orderedPizzas={orderedPizzas}></Cart>
       </StompSessionProvider>
       <button onClick={() => connectws()} />
     </>

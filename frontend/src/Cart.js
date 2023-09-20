@@ -1,19 +1,21 @@
 export default function Cart(p) {
-  const products = p.products.map((product) => (
-    <div key={product.productName} className="cart-item">
-      <span className="item-name">{product.productName}</span>
-      <span className="item-quantity">{product.orderCount}</span>
-      <span className="item-total">{product.orderCount * product.price}</span>
+  const products = p.orderedPizzas.map((orderedPizza) => (
+    <div key={orderedPizza.id} className="cart-item">
+      <span className="item-name">{orderedPizza.id}</span>
+      <span className="item-name">{orderedPizza.pizzaId}</span>
+      <span className="item-name">{orderedPizza.productName}</span>
+      <span className="item-total">{orderedPizza.price}</span>
+      <span><button className=".button">Remove</button></span>
     </div>
   ));
-  const total = p.products.reduce(
-    (partial, p) => partial + p.orderCount * p.price,
+  const total = p.orderedPizzas.reduce(
+    (partial, p) => partial + p.price,
     0
   );
   return (
     <>
       <div key="cartid" className="cart-container">
-        <h2>Your Cart</h2>
+        <h2>Your Ordered Pizzas</h2>
         {products}
 
         <div className="price-total">Total: {total}</div>
