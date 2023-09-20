@@ -54,7 +54,7 @@ function App() {
     // eslint-disable-next-line
   }, [products]);
 
-  const onProductIncPlusClick = function (clickedProductId) {
+  const onOrderClick = function (clickedProductId) {
     const requestOptions = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -79,7 +79,7 @@ function App() {
     <>
         <h1>Pizza di Papavione</h1>
         <ProductList
-          onProductIncPlusClick={onProductIncPlusClick}
+          onOrderClick={onOrderClick}
           products={products}
         />
         <Cart

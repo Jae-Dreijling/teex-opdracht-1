@@ -11,7 +11,7 @@ export default function ProductList(p) {
       />
       <ProductIncrementer
         id={product.id}
-        plusClick={p.onProductIncPlusClick}
+        onOrderClick={p.onOrderClick}
       />
     </div>
   ));
