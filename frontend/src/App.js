@@ -26,9 +26,9 @@ function App() {
     {
       id: 0,
       pizzaId: 0,
-      productName: "Pizzas are coming",
-      description: "With added awesomeness",
-      price: 10,
+      productName: "No pizzas ordered",
+      description: "Order your pizzas above",
+      price: 0,
     },
   ]);
 
@@ -40,10 +40,11 @@ function App() {
       });
   }, []);
 
-  useEffect(() => {
+  const fetchOrderedPizzas = function () {
     fetch("http://localhost:8080/api/orderedpizzas")
-      .then((opresponse) => opresponse.json())
+      .then((opresponse) => opresponse.json() || {})
       .then((opresponseJSON) => {
+        console.log(opresponseJSON);
         var newOrderedPizzas = opresponseJSON.map((orderedPizza) => {
           var pizza = products.find((p) => p.id === orderedPizza.pizzaId) || {};
           return {
@@ -53,15 +54,34 @@ function App() {
             price: pizza.price,
           };
         });
-        console.log(newOrderedPizzas);
         setOrderedPizzas(newOrderedPizzas);
       });
+  };
+
+  useEffect(() => {
+    fetchOrderedPizzas();
+    // eslint-disable-next-line
   }, [products]);
 
   const onProductIncPlusClick = function (clickedProductId) {
-    var i = products.findIndex((p) => p.id === clickedProductId);
-    products[i].orderCount = products[i].orderCount + 1;
-    setProducts([...products]);
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pizzaId: clickedProductId }),
+    };
+    fetch("http://localhost:8080/api/orderedpizzas", requestOptions).then(
+      setTimeout(() => fetchOrderedPizzas(), 1000) // Give the server 1 sec to process and then request the ordered pizzas.
+    );
+  };
+
+  const removeOrderedPizzaClick = function (clickedOrderedPizzaId) {
+    const requestOptions = {
+      method: "DELETE",
+    };
+    fetch(
+      `http://localhost:8080/api/orderedpizzas/${clickedOrderedPizzaId}`,
+      requestOptions
+    ).then(setTimeout(() => fetchOrderedPizzas(), 1000)); // Give the server 1 sec to process and then request the ordered pizzas.
   };
 
   const wserror = function (error) {
@@ -85,7 +105,11 @@ function App() {
           onProductIncPlusClick={onProductIncPlusClick}
           products={products}
         />
-        <Cart products={products} orderedPizzas={orderedPizzas}></Cart>
+        <Cart
+          products={products}
+          orderedPizzas={orderedPizzas}
+          onRemoveClick={removeOrderedPizzaClick}
+        ></Cart>
       </StompSessionProvider>
       <button onClick={() => connectws()} />
     </>

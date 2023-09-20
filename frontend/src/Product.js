@@ -6,7 +6,7 @@ export default function Product(p) {
         <div className="pizza-details">
           <h2 className="pizza-name">{p.productName}</h2>
           <p className="pizza-description">{p.description}</p>
-          <p className="pizza-price">{p.price}</p>{console.log(p)}
+          <p className="pizza-price">{p.price}</p>
         </div>
       </div>
     </>

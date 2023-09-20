@@ -1,12 +1,12 @@
 package nl.han.se.pizzanu.orderedpizzas;
 
-import nl.han.se.pizzanu.pizzas.Pizza;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -22,10 +22,6 @@ public class OrderedPizzaController {
 
         orderedPizzaRepository.findAll().forEach(orderedPizzas::add);
 
-        if (orderedPizzas.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
         return new ResponseEntity<>(orderedPizzas, HttpStatus.OK);
 
     }
@@ -40,7 +36,7 @@ public class OrderedPizzaController {
     public ResponseEntity<String> deleteOrderedPizza(@PathVariable("id") long id) {
         int result = orderedPizzaRepository.deleteById(id);
         if (result == 0) {
-            return new ResponseEntity<>("Cannot find OrderedPizza with id=" + id, HttpStatus.OK);
+            return new ResponseEntity<>("Cannot find OrderedPizza with id=" + id, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>("OrderedPizza was deleted successfully.", HttpStatus.OK);
 

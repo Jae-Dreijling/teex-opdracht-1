@@ -5,7 +5,7 @@ export default function Cart(p) {
       <span className="item-name">{orderedPizza.pizzaId}</span>
       <span className="item-name">{orderedPizza.productName}</span>
       <span className="item-total">{orderedPizza.price}</span>
-      <span><button className=".button">Remove</button></span>
+      <span><button onClick={() => p.onRemoveClick(orderedPizza.id)} className=".button">Remove</button></span>
     </div>
   ));
   const total = p.orderedPizzas.reduce(
@@ -16,7 +16,7 @@ export default function Cart(p) {
     <>
       <div key="cartid" className="cart-container">
         <h2>Your Ordered Pizzas</h2>
-        {products}
+        {products} 
 
         <div className="price-total">Total: {total}</div>
       </div>
