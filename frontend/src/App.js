@@ -2,17 +2,8 @@ import "./App.css";
 import ProductList from "./ProductList";
 import Cart from "./Cart";
 import { useEffect, useState } from "react";
-// import useWebSocket from 'react-use-websocket';
-import { StompSessionProvider, useSubscription } from "react-stomp-hooks";
-
-const WS_URL = "http://localhost:8080/gs-guide-websocket";
 
 function App() {
-  // useWebSocket(WS_URL, {
-  //   onOpen: () => {
-  //     console.log('WebSocket connection established.');
-  //   }
-  // });
   const [products, setProducts] = useState([
     {
       id: 0,
@@ -84,22 +75,8 @@ function App() {
     ).then(setTimeout(() => fetchOrderedPizzas(), 1000)); // Give the server 1 sec to process and then request the ordered pizzas.
   };
 
-  const wserror = function (error) {
-    console.log(error);
-    debugger;
-  };
-  const connectws = function () {};
-
   return (
     <>
-      <StompSessionProvider
-        url={WS_URL}
-        errorCallback={(e) => wserror(e)}
-        debug={(str) => {
-          console.log(str);
-        }}
-      >
-        <SubscribingComponent />
         <h1>Pizza di Papavione</h1>
         <ProductList
           onProductIncPlusClick={onProductIncPlusClick}
@@ -110,24 +87,7 @@ function App() {
           orderedPizzas={orderedPizzas}
           onRemoveClick={removeOrderedPizzaClick}
         ></Cart>
-      </StompSessionProvider>
-      <button onClick={() => connectws()} />
     </>
   );
 }
-
-function SubscribingComponent() {
-  const [lastMessage, setLastMessage] = useState("No message received yet");
-
-  //Subscribe to /topic/test, and use handler for all received messages
-  //Note that all subscriptions made through the library are automatically removed when their owning component gets unmounted.
-  //If the STOMP connection itself is lost they are however restored on reconnect.
-  //You can also supply an array as the first parameter, which will subscribe to all destinations in the array
-  useSubscription("/topic/greetings", (message) =>
-    setLastMessage(message.body)
-  );
-
-  return <div>Last Message: {lastMessage}</div>;
-}
-
 export default App;
