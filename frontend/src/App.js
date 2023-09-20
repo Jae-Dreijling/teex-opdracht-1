@@ -77,16 +77,13 @@ function App() {
 
   return (
     <>
-        <h1>Pizza di Papavione</h1>
-        <ProductList
-          onOrderClick={onOrderClick}
-          products={products}
-        />
-        <Cart
-          products={products}
-          orderedPizzas={orderedPizzas}
-          onRemoveClick={removeOrderedPizzaClick}
-        ></Cart>
+      <h1>Pizza di Papavione</h1>
+      <ProductList onOrderClick={onOrderClick} products={products} />
+      <Cart
+        products={products}
+        orderedPizzas={orderedPizzas}
+        onRemoveClick={removeOrderedPizzaClick}
+      ></Cart>
     </>
   );
 }
