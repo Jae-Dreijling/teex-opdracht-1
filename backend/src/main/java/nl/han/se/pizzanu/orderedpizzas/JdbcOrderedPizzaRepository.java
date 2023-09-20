@@ -14,8 +14,9 @@ public class JdbcOrderedPizzaRepository implements OrderedPizzaRepository{
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public int save(OrderedPizza object) {
-        return 0;
+    public int save(OrderedPizza orderedPizza) {
+        return jdbcTemplate.update("INSERT INTO orderedpizzas (pizzaid) VALUES(?)",
+                new Object[]{orderedPizza.getPizzaId()});
     }
 
     @Override
