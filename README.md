@@ -1,5 +1,37 @@
 # Week 1 - Casus - Pizza.nu
 
+# Software Guidebook WIP
+
+- Structure of the system (FE, BE, DB)
+    - Config to couple each.
+- Logging approach
+- Patterns used
+- Where to add new features
+- Security?
+- Notes about scalability/performance
+
+# Context en functionaliteit
+
+Pizza.nu heeft een bestaande applicatie waarmee een klant een pizza kan bestellen. Vervolgens gaat de pizzabakker er mee aan de gang en uiteindelijk komt er hopelijk een bezorger op tijd met een warme pizza bij de hongerige klant.
+
+# Kwaliteitsattributen
+
+- Op dit moment is de applicatie geschreven voor enkele gelijktijdige gebruikers en een enkele pizzabakker. Dat is ok.
+- Beveiliging van de applicatie is nog niet in scope. In deze fase van de ontwikkeling van pizza.nu is dit niet het grootste risico. Also: Security is saai en stom.
+-  Omdat snelheid belangrijk is voor pizza.nu is moeten wijzigingen binnen één seconde zichtbaar zijn voor andere gebruikers.
+
+
+# Beperkingen
+
+- Ter bevordering van de standaardisatie worden alle applicaties binnen pizza.nu ontwikkeld met Spring Boot (Java) en React (JavaScript).
+- Taal in de code is engels. In de documentatie mag engels of nederlands.
+- Gebruik van externe libraries en frameworks minimaliseren. Gebruik van externe libraries brengt vaak veel onbekende en onveilige code met zich mee. Vind aub het wiel opnieuw uit.
+
+# Principes
+
+
+
+## 
 
 ## Backend
 
@@ -41,7 +73,7 @@ Voorgestelde applicatie aanpassingen:
 - Het klanten-FrontEnd wordt aangepast met een statusicoon per pizza of deze gebakken is.
 - In de bakker FrontEnd komt per pizza een knop om aan te geven dat een pizza gebakken is.
 - Als er op de bakker knop gedrukt wordt dan gaat er direct een bericht naar de backend dat de pizza gebakken is.
-- De database is aangepast zodat er per bestelde pizza opgeslagen kan worden wat de status van de pizza is. De standaard waarde is 'bestelling ontvangen'.
+- De Database is aangepast zodat er per bestelde pizza opgeslagen kan worden wat de status van de pizza is. De standaard waarde is 'bestelling ontvangen'.
 - De BackEnd reageert direct op het bericht van de bakker door de pizza status in de database aan te passen naar 'gebakken'.
 
 Acceptatiecriteria:
