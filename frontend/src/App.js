@@ -2,6 +2,7 @@ import "./App.css";
 import ProductList from "./ProductList";
 import Cart from "./Cart";
 import { useEffect, useState } from "react";
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'; // eslint-disable-line
 
 function App() {
   const [products, setProducts] = useState([
@@ -35,7 +36,6 @@ function App() {
     fetch("http://localhost:8080/api/orderedpizzas")
       .then((opresponse) => opresponse.json() || {})
       .then((opresponseJSON) => {
-        console.log(opresponseJSON);
         var newOrderedPizzas = opresponseJSON.map((orderedPizza) => {
           var pizza = products.find((p) => p.id === orderedPizza.pizzaId) || {};
           return {
@@ -75,15 +75,72 @@ function App() {
     ).then(setTimeout(() => fetchOrderedPizzas(), 1000)); // Give the server 1 sec to process and then request the ordered pizzas.
   };
 
+  const [message, setMessage] = useState(["bla"]);
+
+  const [connected, setConnected] = useState(["false"]);
+
+  var ws;
+
+  const connect = function () {
+    ws = new WebSocket("ws://localhost:8080/name");
+    ws.onmessage = function (data) {
+      showGreeting(data.data);
+    };
+    ws.onerror = function (error) {
+      console.log(error);
+    };
+    setConnected("true");
+  };
+
+  const disconnect = function () {
+    if (ws != null) {
+      ws.close();
+    }
+    setConnected("false");
+    console.log("Disconnected");
+  };
+
+  const sendName = function () {
+    if (ws) {
+      ws.send('{name:"jaap"}');
+    } else {
+      console.log("ws not connected");
+    }
+  };
+
+  function showGreeting(message) {
+    setMessage(message);
+  }
+
   return (
     <>
       <h1>Pizza di Papavione</h1>
-      <ProductList onOrderClick={onOrderClick} products={products} />
-      <Cart
-        products={products}
-        orderedPizzas={orderedPizzas}
-        onRemoveClick={removeOrderedPizzaClick}
-      ></Cart>
+      <Tabs>
+        <TabList>
+          <Tab>Klant</Tab>
+          <Tab>Bakker</Tab>
+        </TabList>
+        <TabPanel>
+          <ProductList onOrderClick={onOrderClick} products={products} />
+          <Cart
+            products={products}
+            orderedPizzas={orderedPizzas}
+            onRemoveClick={removeOrderedPizzaClick}
+          ></Cart>
+          <p>{message}</p>
+          <button onClick={connect}>connect</button>
+          <button onClick={sendName}>send</button>
+          <button onClick={disconnect}>disconnect</button>
+          <p>Connected? : {connected}</p>
+        </TabPanel>
+        <TabPanel>
+          <Cart
+            products={products}
+            orderedPizzas={orderedPizzas}
+            onRemoveClick={removeOrderedPizzaClick}
+          ></Cart>
+        </TabPanel>
+      </Tabs>
     </>
   );
 }
