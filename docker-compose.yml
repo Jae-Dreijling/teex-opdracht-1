@@ -38,12 +38,6 @@ services:
         "spring.datasource.password" : "$MYSQLDB_ROOT_PASSWORD",
         "spring.sql.init.mode" : "always",
         "spring.datasource.initialization-mode" : "always" }'
-    healthcheck:
-      test: "CMD curl --fail http://localhost:8080 || exit 1"
-      interval: 2s
-      timeout: 5s
-      retries: 20
-      start_period: 3s
     volumes: 
       - mavencache:/root/.m2 # Use a named volume as maven cache to avoid repeated maven downloads
   frontend:
