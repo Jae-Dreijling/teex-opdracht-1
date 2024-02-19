@@ -1,7 +1,7 @@
 import "./App.css";
 import ProductList from "./ProductList";
 import Cart from "./Cart";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'; // eslint-disable-line
 
 function App() {
@@ -60,9 +60,11 @@ function App() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ pizzaId: clickedProductId }),
     };
-    fetch("http://localhost:8080/api/orderedpizzas", requestOptions).then(
-      setTimeout(() => fetchOrderedPizzas(), 1000) // Give the server 1 sec to process and then request the ordered pizzas.
-    );
+    fetch("http://localhost:8080/api/orderedpizzas", requestOptions)
+    // .then(
+    //   setTimeout(() => fetchOrderedPizzas(), 1000) // Give the server 1 sec to process and then request the ordered pizzas.
+    // )
+    ;
   };
 
   const removeOrderedPizzaClick = function (clickedOrderedPizzaId) {
@@ -72,37 +74,63 @@ function App() {
     fetch(
       `http://localhost:8080/api/orderedpizzas/${clickedOrderedPizzaId}`,
       requestOptions
-    ).then(setTimeout(() => fetchOrderedPizzas(), 1000)); // Give the server 1 sec to process and then request the ordered pizzas.
+    )
+    // .then(setTimeout(() => fetchOrderedPizzas(), 1000)) // Give the server 1 sec to process and then request the ordered pizzas.
+    ; 
   };
 
+
+  // WebSocket stuff
   const [message, setMessage] = useState(["bla"]);
 
   const [connected, setConnected] = useState(["false"]);
 
-  var ws;
+  const ws = useRef(null);
 
   const connect = function () {
-    ws = new WebSocket("ws://localhost:8080/name");
-    ws.onmessage = function (data) {
+    ws.current = new WebSocket("ws://localhost:8080/name");
+    ws.current.onopen = () => console.log("ws opened");
+    ws.current.onclose = () => console.log("ws closed");
+    ws.current.onmessage = function (data) {
       showGreeting(data.data);
+      fetchOrderedPizzas();
     };
-    ws.onerror = function (error) {
+    ws.current.onerror = function (error) {
       console.log(error);
     };
     setConnected("true");
   };
 
+  useEffect(() => {
+    ws.current = new WebSocket("ws://localhost:8080/name");
+    ws.current.onopen = () => console.log("ws opened");
+    ws.current.onclose = () => console.log("ws closed");
+    ws.current.onmessage = function (data) {
+      showGreeting(data.data);
+      fetchOrderedPizzas();
+    };
+    ws.current.onerror = function (error) {
+      console.log(error);
+    };
+    setConnected("true");
+    const wsCurrent = ws.current;
+
+        return () => {
+            wsCurrent.close();
+        };
+  }, []);
+
   const disconnect = function () {
-    if (ws != null) {
-      ws.close();
+    if (ws.current != null) {
+      ws.current.close();
     }
     setConnected("false");
     console.log("Disconnected");
   };
 
   const sendName = function () {
-    if (ws) {
-      ws.send('{name:"jaap"}');
+    if (ws.current) {
+      ws.current.send('{name:"jaap"}');
     } else {
       console.log("ws not connected");
     }

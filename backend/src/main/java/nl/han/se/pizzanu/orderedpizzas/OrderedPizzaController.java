@@ -1,5 +1,6 @@
 package nl.han.se.pizzanu.orderedpizzas;
 
+import nl.han.se.pizzanu.SocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,9 @@ public class OrderedPizzaController {
     @Autowired
     OrderedPizzaRepository orderedPizzaRepository;
 
+    @Autowired
+    SocketHandler socketHandler;
+
     @GetMapping("/orderedpizzas")
     public ResponseEntity<List<OrderedPizza>> getAllOrderedPizzas() {
         List<OrderedPizza> orderedPizzas = new ArrayList<>();
@@ -29,6 +33,7 @@ public class OrderedPizzaController {
     @PostMapping("/orderedpizzas")
     public ResponseEntity<String> createOrderedPizza(@RequestBody OrderedPizza orderedPizza) {
         orderedPizzaRepository.save(new OrderedPizza(orderedPizza.getPizzaId()));
+        socketHandler.pingAll();
         return new ResponseEntity<>("Pizza was ordered successfully.", HttpStatus.CREATED);
     }
 
@@ -38,6 +43,7 @@ public class OrderedPizzaController {
         if (result == 0) {
             return new ResponseEntity<>("Cannot find OrderedPizza with id=" + id, HttpStatus.NOT_FOUND);
         }
+        socketHandler.pingAll();
         return new ResponseEntity<>("OrderedPizza was deleted successfully.", HttpStatus.OK);
 
     }
