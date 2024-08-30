@@ -1,5 +1,13 @@
 # Week 1 - Casus - Pizza.nu
 
+ # TODO
+
+- Software guidebook aanvullen met C4 modellen
+- De huidige uitwerking is nog niet volledig. Ze geeft de status nog niet weer in de frontend, maar de data is er al wel.
+- De frontend moet nog opgeruimd worden, er zitten nog artifacten in van eerdere experimenten.
+- Er moet voor WebSockets ook iets met CORS gedaan worden. Dat zit nog niet in het materiaal, dus misschien moet dat stuk alvast hier in de code blijven zitten. Dan moet het wel beschreven worden in deze readme.
+- De huidige uitwerking is eigenlijk de solutions. Deze solution kan naar een andere repository gepusht worden. Deze versie moet dan weer versimpeld worden tot de beginstaat en de git historie verwijderd worden. Of deze repo hernoemen en een nieuwe repo maken met daarin alleen de beginstaat.
+
 # Software Guidebook WIP
 
 - Structure of the system (FE, BE, DB)
@@ -20,7 +28,6 @@ Pizza.nu heeft een bestaande applicatie waarmee een klant een pizza kan bestelle
 - Beveiliging van de applicatie is nog niet in scope. In deze fase van de ontwikkeling van pizza.nu is dit niet het grootste risico. Also: Security is saai en stom.
 -  Omdat snelheid belangrijk is voor pizza.nu is moeten wijzigingen binnen één seconde zichtbaar zijn voor andere gebruikers.
 
-
 # Beperkingen
 
 - Ter bevordering van de standaardisatie worden alle applicaties binnen pizza.nu ontwikkeld met Spring Boot (Java) en React (JavaScript).
@@ -28,10 +35,6 @@ Pizza.nu heeft een bestaande applicatie waarmee een klant een pizza kan bestelle
 - Gebruik van externe libraries en frameworks minimaliseren. Gebruik van externe libraries brengt vaak veel onbekende en onveilige code met zich mee. Vind aub het wiel opnieuw uit.
 
 # Principes
-
-
-
-## 
 
 ## Backend
 
@@ -57,7 +60,7 @@ De functionele eisen waar mee gewerkt kan worden zijn, in volgorde van prioritei
 1. Een klant die een pizza heeft besteld moet direct (binnen 1 seconde) een update krijgen als een pizza gebakken is.
 1. Een klant kan na een bestelling direct vragen stellen aan de pizzabakker, en een antwoord van de bakker moet direct getoond worden aan de klant.
 1. Een klant krijgt direct een bericht als de pizza aan de bezorger is meegegeven.
-1. Nadat de pizza aan de bezorger is meegegeven krijgt de klant direct updates van de hartslag van de bezorger zodra deze meetdata beschikbaar is van de gepantenteerde en geimplanteerde pizza.nu lifestyle chip.
+1. Nadat de pizza aan de bezorger is meegegeven krijgt de klant direct updates van de hartslag van de bezorger zodra deze meetdata beschikbaar is van de gepatenteerde en geïmplanteerde pizza.nu lifestyle chip.
 
 Met 'direct' wordt niet perse instantaan bedoeld (het is niet gewenst om kwantumverstrengeling toe te passen). Lees hier 'binnen een enkele seconde'.
 
@@ -84,7 +87,7 @@ Acceptatiecriteria:
 
 TODO: Gaan we deze al benoemen en geven aan studenten of gaan we die zelf in Les 1 naar boven halen?
 
-Er zijn naast de functionelen eisen ook nog onzekerheden:
+Er zijn naast de functionele eisen ook nog onzekerheden:
 
 1. Werkt dit ook op de technologie 'stack' van pizza.nu? (Spring en React)
 1. Hoe veel tijd (lees: geld) gaat het team nodig hebben om deze nieuwe tech te leren?
