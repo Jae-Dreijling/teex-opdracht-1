@@ -4,11 +4,12 @@ public class OrderedPizza {
 
     private long id;
     private long pizzaId;
+    private boolean isFinished;
 
-
-    public OrderedPizza(long id, long pizzaId) {
+    public OrderedPizza(long id, long pizzaId, boolean isFinished) {
         this.id = id;
         this.pizzaId = pizzaId;
+        this.isFinished = isFinished;
     }
 
     public OrderedPizza(long pizzaId) {
@@ -17,6 +18,14 @@ public class OrderedPizza {
 
     public OrderedPizza() {
 
+    }
+
+    public boolean isFinished() {
+        return isFinished;
+    }
+
+    public void setFinished(boolean finished) {
+        isFinished = finished;
     }
 
     public long getId() {

@@ -37,6 +37,16 @@ public class OrderedPizzaController {
         return new ResponseEntity<>("Pizza was ordered successfully.", HttpStatus.CREATED);
     }
 
+    @PutMapping("/orderedpizzas/{id}")
+    public ResponseEntity<String> updateOrderedPizza(@RequestBody OrderedPizza orderedPizza, @PathVariable("id") long id) {
+        int result = orderedPizzaRepository.update(orderedPizza);
+        if (result == 0) {
+            return new ResponseEntity<>("Cannot find OrderedPizza with id=" + id, HttpStatus.NOT_FOUND);
+        }
+        socketHandler.pingAll();
+        return new ResponseEntity<>("OrderedPizza was update successfully.", HttpStatus.OK);
+    }
+
     @DeleteMapping("/orderedpizzas/{id}")
     public ResponseEntity<String> deleteOrderedPizza(@PathVariable("id") long id) {
         int result = orderedPizzaRepository.deleteById(id);

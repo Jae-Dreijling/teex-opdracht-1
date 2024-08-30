@@ -8,6 +8,6 @@ INSERT INTO `pizzanu`.`pizzas`  (`productname`,         `description`,          
 VALUES                          ('Quattro Staggione', 'All the things',                 10       );
 
 
-INSERT INTO `pizzanu`.`orderedpizzas` (`pizzaid`) VALUES  (1);
-INSERT INTO `pizzanu`.`orderedpizzas` (`pizzaid`) VALUES  (1);
-INSERT INTO `pizzanu`.`orderedpizzas` (`pizzaid`) VALUES  (3);
+INSERT INTO `pizzanu`.`orderedpizzas` (`pizzaid`, `isfinished`) VALUES  (1, false);
+INSERT INTO `pizzanu`.`orderedpizzas` (`pizzaid`, `isfinished`) VALUES  (1, true);
+INSERT INTO `pizzanu`.`orderedpizzas` (`pizzaid`, `isfinished`) VALUES  (3, false);

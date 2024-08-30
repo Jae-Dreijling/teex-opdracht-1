@@ -14,6 +14,7 @@ CREATE TABLE `orderedpizzas`
 (
     `id`          bigint       NOT NULL AUTO_INCREMENT,
     `pizzaid`     bigint       DEFAULT NULL,
+    `isfinished`  bit,
     PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 

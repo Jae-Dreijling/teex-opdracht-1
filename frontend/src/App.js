@@ -1,6 +1,7 @@
 import "./App.css";
 import ProductList from "./ProductList";
 import Cart from "./Cart";
+import OrderList from "./OrderList";
 import { useEffect, useState, useRef } from "react";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'; // eslint-disable-line
 
@@ -21,6 +22,7 @@ function App() {
       productName: "No pizzas ordered",
       description: "Order your pizzas above",
       price: 0,
+      finished: false
     },
   ]);
 
@@ -52,7 +54,7 @@ function App() {
   useEffect(() => {
     fetchOrderedPizzas();
     // eslint-disable-next-line
-  }, [products]);
+  }, [orderedPizzas]);
 
   const onOrderClick = function (clickedProductId) {
     const requestOptions = {
@@ -70,6 +72,18 @@ function App() {
   const removeOrderedPizzaClick = function (clickedOrderedPizzaId) {
     const requestOptions = {
       method: "DELETE",
+    };
+    fetch(
+      `http://localhost:8080/api/orderedpizzas/${clickedOrderedPizzaId}`,
+      requestOptions
+    )
+    // .then(setTimeout(() => fetchOrderedPizzas(), 1000)) // Give the server 1 sec to process and then request the ordered pizzas.
+    ; 
+  };
+
+  const finishOrderedPizzaClick = function (clickedOrderedPizzaId) {
+    const requestOptions = {
+      method: "PUT",
     };
     fetch(
       `http://localhost:8080/api/orderedpizzas/${clickedOrderedPizzaId}`,
@@ -114,7 +128,6 @@ function App() {
     };
     setConnected("true");
     const wsCurrent = ws.current;
-
         return () => {
             wsCurrent.close();
         };
@@ -162,11 +175,11 @@ function App() {
           <p>Connected? : {connected}</p>
         </TabPanel>
         <TabPanel>
-          <Cart
+          <OrderList
             products={products}
             orderedPizzas={orderedPizzas}
-            onRemoveClick={removeOrderedPizzaClick}
-          ></Cart>
+            onFinishedClick={finishOrderedPizzaClick}
+          ></OrderList>
         </TabPanel>
       </Tabs>
     </>

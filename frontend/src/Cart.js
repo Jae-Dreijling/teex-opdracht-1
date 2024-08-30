@@ -4,6 +4,7 @@ export default function Cart(p) {
       <span className="item-name">{orderedPizza.id}</span>
       <span className="item-name">{orderedPizza.pizzaId}</span>
       <span className="item-name">{orderedPizza.productName}</span>
+      <span className="item-name">{orderedPizza.isFinished}</span>
       <span className="item-total">{orderedPizza.price}</span>
       <span><button onClick={() => p.onRemoveClick(orderedPizza.id)} className=".button">Remove</button></span>
     </div>
