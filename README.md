@@ -1,22 +1,22 @@
 # Week 1 - Casus - Pizza.nu
 
- # TODO
+# Start de app
 
-- Software guidebook aanvullen met C4 modellen
-- De huidige uitwerking is nog niet volledig. Ze geeft de status nog niet weer in de frontend, maar de data is er al wel.
-- De frontend moet nog opgeruimd worden, er zitten nog artifacten in van eerdere experimenten.
-- Er moet voor WebSockets ook iets met CORS gedaan worden. Dat zit nog niet in het materiaal, dus misschien moet dat stuk alvast hier in de code blijven zitten. Dan moet het wel beschreven worden in deze readme.
-- De huidige uitwerking is eigenlijk de solutions. Deze solution kan naar een andere repository gepusht worden. Deze versie moet dan weer versimpeld worden tot de beginstaat en de git historie verwijderd worden. Of deze repo hernoemen en een nieuwe repo maken met daarin alleen de beginstaat.
+Met docker
+```
+docker compose up -d
+```
 
-# Software Guidebook WIP
+frontend url is standaard http://localhost:3000/.
 
-- Structure of the system (FE, BE, DB)
-    - Config to couple each.
-- Logging approach
-- Patterns used
-- Where to add new features
-- Security?
-- Notes about scalability/performance
+Je kunt ook alleen onderdelen van de app met docker starten zie de compose file voor de namen van de componenten. Bijvoorbeeld als je de alleen ontwikkelwerk doet aan de frontend:
+
+```
+docker compose up -d frontend
+docker compose up -d backend
+docker compose up -d db
+docker compose up -d db backend
+```
 
 # Context en functionaliteit
 
@@ -26,7 +26,7 @@ Pizza.nu heeft een bestaande applicatie waarmee een klant een pizza kan bestelle
 
 - Op dit moment is de applicatie geschreven voor enkele gelijktijdige gebruikers en een enkele pizzabakker. Dat is ok.
 - Beveiliging van de applicatie is nog niet in scope. In deze fase van de ontwikkeling van pizza.nu is dit niet het grootste risico. Also: Security is saai en stom.
--  Omdat snelheid belangrijk is voor pizza.nu is moeten wijzigingen binnen één seconde zichtbaar zijn voor andere gebruikers.
+- Omdat snelheid belangrijk is voor pizza.nu is moeten wijzigingen binnen één seconde zichtbaar zijn voor andere gebruikers.
 
 # Beperkingen
 
@@ -38,7 +38,7 @@ Pizza.nu heeft een bestaande applicatie waarmee een klant een pizza kan bestelle
 
 ## Backend
 
-Backend API Docs UI: http://localhost:8080/swagger-ui/index.html
+Generated Backend API Docs UI: http://localhost:8080/swagger-ui/index.html
 
 ## Inleiding
 
