@@ -4,28 +4,33 @@ public class OrderedPizza {
 
     private long id;
     private long pizzaId;
-    private boolean isFinished;
+    private boolean finished;
 
-    public OrderedPizza(long id, long pizzaId, boolean isFinished) {
+    public OrderedPizza(long id, long pizzaId, boolean finished) {
         this.id = id;
         this.pizzaId = pizzaId;
-        this.isFinished = isFinished;
+        this.finished = finished;
     }
 
-    public OrderedPizza(long pizzaId) {
+    public OrderedPizza(long pizzaId, boolean finished) {
         this.pizzaId = pizzaId;
-    }
+        this.finished = finished;
+   }
 
     public OrderedPizza() {
 
     }
 
     public boolean isFinished() {
-        return isFinished;
+        return finished;
+    }
+
+    public boolean getFinished() {
+        return finished;
     }
 
     public void setFinished(boolean finished) {
-        isFinished = finished;
+        this.finished = finished;
     }
 
     public long getId() {

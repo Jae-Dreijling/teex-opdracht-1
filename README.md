@@ -1,45 +1,5 @@
 # Week 1 - Casus - Pizza.nu
 
-# Start de app
-
-Met docker
-```
-docker compose up -d
-```
-
-frontend url is standaard http://localhost:3000/.
-
-Je kunt ook alleen onderdelen van de app met docker starten zie de compose file voor de namen van de componenten. Bijvoorbeeld als je de alleen ontwikkelwerk doet aan de frontend:
-
-```
-docker compose up -d frontend
-docker compose up -d backend
-docker compose up -d db
-docker compose up -d db backend
-```
-
-# Context en functionaliteit
-
-Pizza.nu heeft een bestaande applicatie waarmee een klant een pizza kan bestellen. Vervolgens gaat de pizzabakker er mee aan de gang en uiteindelijk komt er hopelijk een bezorger op tijd met een warme pizza bij de hongerige klant.
-
-# Kwaliteitsattributen
-
-- Op dit moment is de applicatie geschreven voor enkele gelijktijdige gebruikers en een enkele pizzabakker. Dat is ok.
-- Beveiliging van de applicatie is nog niet in scope. In deze fase van de ontwikkeling van pizza.nu is dit niet het grootste risico. Also: Security is saai en stom.
-- Omdat snelheid belangrijk is voor pizza.nu is moeten wijzigingen binnen één seconde zichtbaar zijn voor andere gebruikers.
-
-# Beperkingen
-
-- Ter bevordering van de standaardisatie worden alle applicaties binnen pizza.nu ontwikkeld met Spring Boot (Java) en React (JavaScript).
-- Taal in de code is engels. In de documentatie mag engels of nederlands.
-- Gebruik van externe libraries en frameworks minimaliseren. Gebruik van externe libraries brengt vaak veel onbekende en onveilige code met zich mee. Vind aub het wiel opnieuw uit.
-
-# Principes
-
-## Backend
-
-Generated Backend API Docs UI: http://localhost:8080/swagger-ui/index.html
-
 ## Inleiding
 
 Ken je dat, je hebt een pizza besteld en zit met smart te wachten bij de voordeur met zo veel vragen !?
@@ -72,24 +32,106 @@ De software architect heeft vooronderzoek gedaan, en de technologie *WebSockets*
 
 Dit is de eerste story in het nieuwe thema 'realtime pizza'. 
 
-Voorgestelde applicatie aanpassingen:
-- Het klanten-FrontEnd wordt aangepast met een statusicoon per pizza of deze gebakken is.
-- In de bakker FrontEnd komt per pizza een knop om aan te geven dat een pizza gebakken is.
-- Als er op de bakker knop gedrukt wordt dan gaat er direct een bericht naar de backend dat de pizza gebakken is.
-- De Database is aangepast zodat er per bestelde pizza opgeslagen kan worden wat de status van de pizza is. De standaard waarde is 'bestelling ontvangen'.
-- De BackEnd reageert direct op het bericht van de bakker door de pizza status in de database aan te passen naar 'gebakken'.
-
 Acceptatiecriteria:
-- Als de bakker een pizza als gebakken markeert is dit binnen 1 seconde zichtbaar op het scherm van de klant.
+- Als de bakker een pizza als gebakken markeert is dit direct zichtbaar op het scherm van alle klanten.
 - Er wordt op enig moment gebruik gemaakt van WebSockets.
 
 ## Onzekerheden
-
-TODO: Gaan we deze al benoemen en geven aan studenten of gaan we die zelf in Les 1 naar boven halen?
 
 Er zijn naast de functionele eisen ook nog onzekerheden:
 
 1. Werkt dit ook op de technologie 'stack' van pizza.nu? (Spring en React)
 1. Hoe veel tijd (lees: geld) gaat het team nodig hebben om deze nieuwe tech te leren?
 
-Deze onzekerheden maken het onpraktisch om in een planning sessie schattingen te kunnen maken over hoe veel tijd het team nodig gaat hebben om de nieuwe features te implementeren. Oftewel: Het werk kan nog niet gepland worden. Samen met het team is een nieuw soort taak op het scrum bord van het team geplaatst: Een [SPIKE](https://www.google.com/search?q=what+is+a+spike+in+scrum). Het doel van een spike is om deze onzekerheden te tacklen zonder de features volledig te moeten implementeren. De spike wordt ingepland met een [timebox](https://www.google.com/search?q=what+is+a+timebox+in+agile) van een week.
+Deze onzekerheden maken het onpraktisch om in een planning sessie schattingen te kunnen maken over hoe veel tijd het team nodig gaat hebben om de nieuwe features te implementeren. Oftewel: Het werk kan nog niet gepland worden. Onderzoek is nodig.
+
+# Context en functionaliteit
+
+Pizza.nu heeft een bestaande applicatie waarmee een klant een pizza kan bestellen. Vervolgens gaat de pizzabakker er mee aan de gang en uiteindelijk komt er hopelijk een bezorger op tijd met een warme pizza bij de hongerige klant.
+
+Op dit moment is de pagina nog in ontwikkeling. Er is een pagina met twee tabs, eentje voor de bakker en eentje voor de klant. Later gaat dit uiteraard nog met een router en authenticatie uit elkaar gehaald worden voor de twee type actoren, maar dat is voor de ontwikkelaars gesneden koek en geen groot risico. Voor nu is de huidige pagina voldoende. Voor het testen kan je twee browsers openen met op de ene  het klantscherm en de andere het bakker scherm.
+
+## Kwaliteitsattributen
+
+- Op dit moment is de applicatie geschreven voor enkele gelijktijdige gebruikers en een enkele pizzabakker. Dat is ok.
+- Beveiliging van de applicatie is nog niet in scope. In deze fase van de ontwikkeling van pizza.nu is dit niet het grootste risico. Also: Security is saai en stom.
+- Omdat snelheid belangrijk is voor pizza.nu is moeten wijzigingen binnen één seconde zichtbaar zijn voor andere gebruikers.
+
+## Beperkingen
+
+- Ter bevordering van de standaardisatie worden alle applicaties binnen pizza.nu ontwikkeld met Spring Boot (Java) en React (JavaScript).
+- Taal in de code is engels. In de documentatie mag engels of nederlands.
+- Gebruik van externe libraries en frameworks minimaliseren. Gebruik van externe libraries brengt vaak veel onbekende en onveilige code met zich mee. Vind aub het wiel opnieuw uit.
+
+# Deployment
+
+## Software
+
+React
+Java 17
+Spring Boot
+MySQL
+
+### Building 
+
+Back-end
+`mvn package`
+
+Front-end
+`npm run build`
+
+### Configuration
+
+Back-end: Het .env bestand bevat poorten en gebruikersnaam/wachtwoord voor toegang tot de database. Deze worden automatisch gebruikt door docker compose. Sommigen variabelen zijn gedupliceerd in een .env bestand in de backend/src/main/resources/.env voor als je zonder docker compose gaat ontwikkelen.
+
+Front-end: Geen configuratie.
+
+## Operation and Support
+
+Met docker:
+```
+docker compose up -d
+```
+
+frontend url is standaard http://localhost:3000/.
+
+backend url is standaard http://localhost:8080/.
+
+Generated Backend API Docs UI: http://localhost:8080/swagger-ui/index.html
+
+Je kunt ook alleen onderdelen van de app met docker starten zie de compose file voor de namen van de componenten. Bijvoorbeeld als je de alleen ontwikkelwerk doet aan de frontend:
+
+```
+docker compose up -d frontend
+docker compose up -d backend
+docker compose up -d db
+docker compose up -d db backend
+```
+
+De verschillende componenten gebruiken elk een eigen netwerk port.
+
+| **component** | **port** |
+| ------------- | -------- |
+| db            | 3306     |
+| backend       | 8080     |
+| frontend      | 3000     |
+
+### Back-end
+
+Run de back-end met Maven vanuit de /backend directory:
+
+`mvn spring-boot:run`
+
+### Front-end
+
+Run de front-end vanuit de /frontend directory.
+
+`npm run start`
+
+### DB
+
+These values are configured in the .env file for docker compose.
+
+| **username**  | **password** | **database** |
+| ------------- | ------------ | ------------ |
+| root          | pizza        | pizzanu      |

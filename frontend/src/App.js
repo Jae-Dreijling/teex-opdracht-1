@@ -2,7 +2,7 @@ import "./App.css";
 import ProductList from "./ProductList";
 import Cart from "./Cart";
 import OrderList from "./OrderList";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'; // eslint-disable-line
 
 function App() {
@@ -26,15 +26,22 @@ function App() {
     },
   ]);
 
-  useEffect(() => {
+  useEffect(() => { fetchPizzas(); }, []);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => { fetchOrderedPizzas(); }, [products]);
+
+  const fetchPizzas = function () {
+    console.log("fetching pizzas");
     fetch("http://localhost:8080/api/pizzas")
       .then((response) => response.json())
       .then((responseJSON) => {
         setProducts(responseJSON);
       });
-  }, []);
+  }
 
   const fetchOrderedPizzas = function () {
+    console.log("fetching orderedpizzas");
     fetch("http://localhost:8080/api/orderedpizzas")
       .then((opresponse) => opresponse.json() || {})
       .then((opresponseJSON) => {
@@ -44,17 +51,12 @@ function App() {
             ...orderedPizza,
             productName: pizza.productName,
             description: pizza.description,
-            price: pizza.price,
+            price: pizza.price
           };
         });
         setOrderedPizzas(newOrderedPizzas);
       });
   };
-
-  useEffect(() => {
-    fetchOrderedPizzas();
-    // eslint-disable-next-line
-  }, [orderedPizzas]);
 
   const onOrderClick = function (clickedProductId) {
     const requestOptions = {
@@ -63,95 +65,43 @@ function App() {
       body: JSON.stringify({ pizzaId: clickedProductId }),
     };
     fetch("http://localhost:8080/api/orderedpizzas", requestOptions)
-    // .then(
-    //   setTimeout(() => fetchOrderedPizzas(), 1000) // Give the server 1 sec to process and then request the ordered pizzas.
-    // )
-    ;
+      .then((opresponse) => opresponse.json() || {})
+      .then((orderedPizza) => {
+        var newOrderedPizzas = [...orderedPizzas];
+        var pizza = products.find((p) => p.id === orderedPizza.pizzaId) || {};
+        newOrderedPizzas.push({
+          ...orderedPizza,
+            productName: pizza.productName,
+            description: pizza.description,
+            price: pizza.price
+        });
+        setOrderedPizzas(newOrderedPizzas);
+      });
   };
 
   const removeOrderedPizzaClick = function (clickedOrderedPizzaId) {
     const requestOptions = {
       method: "DELETE",
     };
-    fetch(
-      `http://localhost:8080/api/orderedpizzas/${clickedOrderedPizzaId}`,
-      requestOptions
-    )
-    // .then(setTimeout(() => fetchOrderedPizzas(), 1000)) // Give the server 1 sec to process and then request the ordered pizzas.
-    ; 
+    fetch(`http://localhost:8080/api/orderedpizzas/${clickedOrderedPizzaId}`, requestOptions)
+      .then(() => {
+        setOrderedPizzas(orderedPizzas.filter(op => op.id !== clickedOrderedPizzaId));
+      });
   };
 
   const finishOrderedPizzaClick = function (clickedOrderedPizzaId) {
     const requestOptions = {
       method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ id: clickedOrderedPizzaId, finished: true }),
     };
-    fetch(
-      `http://localhost:8080/api/orderedpizzas/${clickedOrderedPizzaId}`,
-      requestOptions
-    )
-    // .then(setTimeout(() => fetchOrderedPizzas(), 1000)) // Give the server 1 sec to process and then request the ordered pizzas.
-    ; 
+    fetch(`http://localhost:8080/api/orderedpizzas/${clickedOrderedPizzaId}`, requestOptions)
+      .then(() => {
+        const newOrderedPizzas = [...orderedPizzas];
+        newOrderedPizzas.find(a => a.id === clickedOrderedPizzaId).finished = true;
+        setOrderedPizzas(newOrderedPizzas);
+      });
   };
-
-
-  // WebSocket stuff
-  const [message, setMessage] = useState(["bla"]);
-
-  const [connected, setConnected] = useState(["false"]);
-
-  const ws = useRef(null);
-
-  const connect = function () {
-    ws.current = new WebSocket("ws://localhost:8080/name");
-    ws.current.onopen = () => console.log("ws opened");
-    ws.current.onclose = () => console.log("ws closed");
-    ws.current.onmessage = function (data) {
-      showGreeting(data.data);
-      fetchOrderedPizzas();
-    };
-    ws.current.onerror = function (error) {
-      console.log(error);
-    };
-    setConnected("true");
-  };
-
-  useEffect(() => {
-    ws.current = new WebSocket("ws://localhost:8080/name");
-    ws.current.onopen = () => console.log("ws opened");
-    ws.current.onclose = () => console.log("ws closed");
-    ws.current.onmessage = function (data) {
-      showGreeting(data.data);
-      fetchOrderedPizzas();
-    };
-    ws.current.onerror = function (error) {
-      console.log(error);
-    };
-    setConnected("true");
-    const wsCurrent = ws.current;
-        return () => {
-            wsCurrent.close();
-        };
-  }, []);
-
-  const disconnect = function () {
-    if (ws.current != null) {
-      ws.current.close();
-    }
-    setConnected("false");
-    console.log("Disconnected");
-  };
-
-  const sendName = function () {
-    if (ws.current) {
-      ws.current.send('{name:"jaap"}');
-    } else {
-      console.log("ws not connected");
-    }
-  };
-
-  function showGreeting(message) {
-    setMessage(message);
-  }
 
   return (
     <>
@@ -168,11 +118,6 @@ function App() {
             orderedPizzas={orderedPizzas}
             onRemoveClick={removeOrderedPizzaClick}
           ></Cart>
-          <p>{message}</p>
-          <button onClick={connect}>connect</button>
-          <button onClick={sendName}>send</button>
-          <button onClick={disconnect}>disconnect</button>
-          <p>Connected? : {connected}</p>
         </TabPanel>
         <TabPanel>
           <OrderList
